@@ -29,6 +29,8 @@ int main() {
                     std::cout << "Process Exited using Keyboard interupt" << std::endl;
                 } else if (returnCode == 2) {
                     std::cout << "Import Error found" << std::endl;
+                } else if (returnCode == 3) {
+                    std::cout << "Attrib Error found" << std::endl;
                 } else {
                     std::cout << "OS Fail Load: Python/C++ Error: " << returnCode << std::endl;
                 }

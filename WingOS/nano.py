@@ -11,9 +11,14 @@ def main(file):
         print("[3] Exit")
         
         if file:
-            content = input("Enter the content [Press ctrl+c to save]: ")
-            print("Saving...")
-            save_text_to_file(file,content)
+            try:
+                while True:
+                    content = input("Enter the content [Press enter to continue]: ")
+                    input("\n\nPress Ctrl+C to save or enter to redo\n\n")
+            except KeyboardInterrupt:
+                print("Saving...")
+                save_text_to_file(file,content)
+                print("Saved!")
         else:
             choice = input("Enter your choice: ")
             if choice == '1':
@@ -32,10 +37,16 @@ def main(file):
 
 def save_text_to_file(filename, content):
     try:
-        with open("wing/emulated/home/"+filename, 'w') as file:
-            file.write(content)
-            print(f"Saved content to {filename}")
-            sleep(3)
+        if os.path.exists(filename):
+            with open("wing/emulated/home/"+filename, 'w') as file:
+                file.write(content)
+                print(f"Saved content to {filename}")
+                sleep(3)
+        else:
+            with open("wing/emulated/home/"+filename, 'x') as file:
+                file.write(content)
+                print(f"Saved content to {filename}")
+                sleep(3)
     except Exception as e:
         print(f"An error occurred: {str(e)}")
         sleep(3)

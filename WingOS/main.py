@@ -40,7 +40,7 @@ dir=str(os.getcwd())
 def run_console():
     class OSLexerconsole(Lexer):
         tokens = {
-            FILE, EXIT, HELP, INFO, CLEAR, SUDO, ALPHA, LS, ARGS, CHANGE, PWD, NANO, RM, LOG
+            FILE, EXIT, HELP, INFO, CLEAR, SUDO, ALPHA, LS, ARGS, CHANGE, PWD, NANO, RM, LOG, BIOS
         }
 
         EXIT = 'exit'
@@ -54,9 +54,10 @@ def run_console():
         LS = 'ls'
         CHANGE = r'change\w'
         PWD = 'pwd'
-        FILE = '\(([A-Za-z0-9].[A-Za-z0-9]{:5})\)'
+        FILE = '([A-Za-z0-9]+).([A-Za-z0-9]+)'
         RM = "rm"
         LOG = "log.*"
+        BIOS = "bios.*"
 
         ignore = r' ()'
         ignore_newline = r'\n'
@@ -81,6 +82,14 @@ def run_console():
         @_('EXIT')
         def statement(self, t):
             exit(0)
+
+        @_('BIOS')
+        def statement(self, t):
+            if t.LOG == "bios log":
+                with open("data.txt") as f:
+                    text=f.read()
+                    f.close()
+                print(text)
 
         @_('RM FILE')
         def statement(self, t):
@@ -122,6 +131,14 @@ def run_console():
         def statement(self, t):
             print(dir)
 
+        @_('LOG')
+        def statement(self, t):
+            if t.LOG == "log view":
+                with open("log.txt") as f:
+                    text=f.read()
+                    f.close()
+                print(text)
+
         @_('LS ARGS')
         def statement(self, t):
             try:
@@ -145,6 +162,12 @@ def run_console():
             ls=os.listdir()
             lscontent = [x for x in ls if not x.startswith('.')]
             lscontent = [x for x in lscontent if not x.startswith('_')]
+            lscontent = [x for x in lscontent if not x.startswith('replit')]
+            lscontent = [x for x in lscontent if not x.startswith('Make')]
+            lscontent = [x for x in lscontent if not x.endswith('.o')]
+            lscontent = [x for x in lscontent if not x.endswith('.toml')]
+            lscontent = [x for x in lscontent if not x.endswith('main')]
+            lscontent = [x for x in lscontent if not x.endswith('debug')]
             lscontent = [x for x in lscontent if not x.endswith('.lock')]
             ls=str(lscontent)
             print(ls.strip("[").strip("]"))
@@ -210,6 +233,14 @@ Dev: OrionOreo
                 f.close()
         while console:
             result = consoleparser.parse(consolelexer.tokenize(console))
+            if os.path.exists("log.txt"):
+                with open("log.txt","w") as f:
+                    f.write(console)
+                    f.close()
+            else:
+                with open("log.txt","x") as f:
+                    f.write(console)
+                    f.close()
             print(result)
             enablePrint()
             console = input(username.user+"@"+"wing["+dir+"]> ")
@@ -228,6 +259,9 @@ Dev: OrionOreo
             pass
         else:
             print("Bad Input: %s" % x)
+    except AttributeError as e:
+        print("Internal AttributeError Found, Please contact the dev with this error message:\n\n%s" % e)
+        exit(3)
 
 login.auth()
 while login.authent is True:
