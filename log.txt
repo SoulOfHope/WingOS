@@ -1,1 +1,1 @@
-nano main.txt
+log view
