@@ -9,7 +9,6 @@ def main(file):
         print("[1] Create or Edit a File")
         print("[2] Read a File")
         print("[3] Exit")
-        
         if file:
             try:
                 while True:

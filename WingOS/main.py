@@ -131,6 +131,10 @@ def run_console():
         def statement(self, t):
             print(dir)
 
+        @_('NANO')
+        def statement(self,t):
+            nano.main(None)
+
         @_('LOG')
         def statement(self, t):
             if t.LOG == "log view":
