@@ -1,1 +1,1 @@
-log view
+clear
