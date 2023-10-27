@@ -93,8 +93,8 @@ def run_console():
 
         @_('RM FILE')
         def statement(self, t):
-            if os.path.exists(t.FILE):
-                os.removedirs(t.FILE)
+            print(t.FILE)
+            os.remove("wing/emulated/home/"+t.FILE)
 
         @_('ALPHA SUDO')
         def statement(self, t):

@@ -59,7 +59,7 @@ def save_text_to_file(filename, content):
 
 def read_file(filename):
     try:
-        with open("wing/emulated/home/"+filename, 'r') as file:
+        with open("WingOS/wing/emulated/home/"+filename, 'r') as file:
             content = file.read()
             print(f"File content:\n{content}")
             input("\n\nPress enter to continue...")

@@ -1,8 +1,8 @@
 modules = ["python-3.10:v18-20230807-322e88b"]
 
-run = "./main"
+run = "./.WingOS"
 
-compile = "make -s"
+compile = "g++ main.cpp WingOS/drivers/window.cpp -o .WingOS"
 entrypoint = "main.cpp"
 hidden = ["main", "**/*.o", "**/*.d", ".ccls-cache", "Makefile"]
 
